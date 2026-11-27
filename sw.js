@@ -1,7 +1,7 @@
 // BLACKSMOKE offline app: keeps the game, car models, textures and sounds on the device after the first visit, so the
 // home-screen app starts without the network. One cache per build: a new build installs a new worker (this file
 // changes with the build name), which fetches fresh files and deletes the old cache.
-const BUILD = 'b39', CACHE = 'blacksmoke-' + BUILD;
+const BUILD = 'b40', CACHE = 'blacksmoke-' + BUILD;
 self.addEventListener('install', (e) => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png']).catch(() => {}))); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k.startsWith('blacksmoke-') && k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (e) => {
